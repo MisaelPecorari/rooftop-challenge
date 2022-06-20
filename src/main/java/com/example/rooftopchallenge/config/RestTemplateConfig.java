@@ -1,4 +1,4 @@
-package com.example.rooftopchallenge;
+package com.example.rooftopchallenge.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

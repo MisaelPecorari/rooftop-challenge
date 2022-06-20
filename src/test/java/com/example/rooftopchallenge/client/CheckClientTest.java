@@ -1,4 +1,4 @@
-package com.example.rooftopchallenge;
+package com.example.rooftopchallenge.client;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
