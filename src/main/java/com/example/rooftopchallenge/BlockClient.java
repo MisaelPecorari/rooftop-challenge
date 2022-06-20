@@ -1,7 +1,5 @@
 package com.example.rooftopchallenge;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +24,7 @@ public class BlockClient {
         }
     }
 
-    public List<String> getBlocks(String token) {
+    public String[] getBlocks(String token) {
         BlocksBody blocksBody = restTemplate.getForObject(String.format(BLOCKS_URI, token), BlocksBody.class);
         if (blocksBody != null) {
             return blocksBody.data;
@@ -38,7 +36,7 @@ public class BlockClient {
 
     @AllArgsConstructor
     protected static class BlocksBody {
-        private List<String> data;
+        private String[] data;
     }
 
     @AllArgsConstructor

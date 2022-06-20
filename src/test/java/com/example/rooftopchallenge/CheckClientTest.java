@@ -1,8 +1,5 @@
 package com.example.rooftopchallenge;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +24,7 @@ public class CheckClientTest {
 
     @Test
     public void whenCheckBlocks_thenSuccess() {
-        List<String> blocks = new ArrayList<>();
+        String[] blocks = new String[]{};
         Mockito.when(restTemplate.postForObject(String.format(CheckClient.CHECK_URI, TOKEN),
                 new CheckClient.BlockBody(blocks), CheckClient.MessageBody.class))
                 .thenReturn(new CheckClient.MessageBody(true));
@@ -39,7 +36,7 @@ public class CheckClientTest {
 
     @Test
     public void givenNullBody_whenCheckBlocks_thenResourceAccessException() {
-        List<String> blocks = new ArrayList<>();
+        String[] blocks = new String[]{};
         Mockito.when(restTemplate.postForObject(String.format(CheckClient.CHECK_URI, TOKEN),
                         new CheckClient.BlockBody(blocks), CheckClient.MessageBody.class))
                 .thenReturn(null);
@@ -68,7 +65,5 @@ public class CheckClientTest {
 
         assertThrows(ResourceAccessException.class, () -> checkClient.check(encoded, TOKEN));
     }
-
-
 
 }

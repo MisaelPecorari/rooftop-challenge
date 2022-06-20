@@ -1,7 +1,5 @@
 package com.example.rooftopchallenge;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,12 +25,12 @@ public class BlockClientTest {
 
     @Test
     public void whenGetBlocks_thenSuccess() {
-        List<String> expectedBlocks = List.of("first", "second", "third");
+        String[] expectedBlocks = new String[]{"first", "second", "third"};
         Mockito.when(restTemplate.getForObject(String.format(BlockClient.BLOCKS_URI, TOKEN), BlockClient.BlocksBody.class))
                 .thenReturn(new BlockClient.BlocksBody(expectedBlocks));
 
-        List<String> actualBlocks = blockClient.getBlocks(TOKEN);
-        assertIterableEquals(expectedBlocks, actualBlocks);
+        String[] actualBlocks = blockClient.getBlocks(TOKEN);
+        assertArrayEquals(expectedBlocks, actualBlocks);
     }
 
     @Test
