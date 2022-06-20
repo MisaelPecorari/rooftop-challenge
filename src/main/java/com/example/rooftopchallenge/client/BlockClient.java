@@ -9,21 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Service
-@AllArgsConstructor
-public class BlockClient {
-    private final RestTemplate restTemplate;
-    private static final String BASE_URI = "https://rooftop-career-switch.herokuapp.com";
-    protected static final String TOKEN_URI = BASE_URI + "/token?email=%s";
+public class BlockClient extends BaseClient {
     protected static final String BLOCKS_URI = BASE_URI + "/blocks?token=%s";
 
-
-    public String getToken(String email) {
-        TokenBody tokenBody = restTemplate.getForObject(String.format(TOKEN_URI, email), TokenBody.class);
-        if (tokenBody != null) {
-            return tokenBody.token;
-        } else {
-            throw new ResourceAccessException("Error getting token");
-        }
+    public BlockClient(RestTemplate restTemplate) {
+        super(restTemplate);
     }
 
     public String[] getBlocks(String token) {
@@ -41,12 +31,5 @@ public class BlockClient {
     @Data
     protected static class BlocksBody {
         private String[] data;
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    protected static class TokenBody {
-        private String token;
     }
 }

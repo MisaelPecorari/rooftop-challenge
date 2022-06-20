@@ -46,6 +46,7 @@ public class BlockService {
     private void moveBlocks(String[] blocks, int oldIndex, int newIndex) {
         String block1 = blocks[oldIndex];
         String block2 = blocks[newIndex];
+        log.debug("Changing block[{}]: {} by block[{}]: {}", oldIndex, block1, newIndex, block2);
         blocks[oldIndex] = block2;
         blocks[newIndex] = block1;
     }
@@ -54,7 +55,9 @@ public class BlockService {
         StringBuilder builder = new StringBuilder();
         Arrays.stream(blocks).forEach(builder::append);
         String content = builder.toString();
-        return checkClient.check(content, token);
+        boolean isValid = checkClient.check(content, token);
+        log.debug("Sequence [{}] is valid [{}]", content, isValid);
+        return isValid;
     }
 
 }

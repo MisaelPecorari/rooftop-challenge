@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 
 @Configuration
 @ConditionalOnProperty(prefix = "api.check", name = "use", havingValue = "server")
-@AllArgsConstructor
-public class CheckClient implements CheckApi {
+public class CheckClient extends BaseClient implements CheckApi {
 
-    private final RestTemplate restTemplate;
-    private static final String BASE_URI = "https://rooftop-career-switch.herokuapp.com";
     protected static final String CHECK_URI = BASE_URI + "/check?token=%s";
+
+    public CheckClient(RestTemplate restTemplate) {
+        super(restTemplate);
+    }
 
 
     public boolean check(String[] blocks, String token) {

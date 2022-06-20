@@ -41,23 +41,4 @@ public class BlockClientTest {
         assertThrows(ResourceAccessException.class, () -> blockClient.getBlocks(TOKEN));
     }
 
-    @Test
-    public void whenGetToken_thenSuccess() {
-        String email = "example@gmail.com";
-        Mockito.when(restTemplate.getForObject(String.format(BlockClient.TOKEN_URI, email), BlockClient.TokenBody.class))
-                .thenReturn(new BlockClient.TokenBody(TOKEN));
-
-        String actualToken = blockClient.getToken(email);
-        assertEquals(TOKEN, actualToken);
-    }
-
-    @Test
-    public void givenNullBody_whenGetToken_thenResourceAccessException() {
-        String email = "example@gmail.com";
-        Mockito.when(restTemplate.getForObject(String.format(BlockClient.TOKEN_URI, email), BlockClient.TokenBody.class))
-                .thenReturn(null);
-
-        assertThrows(ResourceAccessException.class, () -> blockClient.getToken(email));
-    }
-
 }
