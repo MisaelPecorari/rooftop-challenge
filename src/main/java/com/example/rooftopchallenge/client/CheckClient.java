@@ -1,15 +1,17 @@
 package com.example.rooftopchallenge.client;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Profile("prod")
-@Service
+@Configuration
+@ConditionalOnProperty(prefix = "api.check", name = "use", havingValue = "server")
 @AllArgsConstructor
 public class CheckClient implements CheckApi {
 
@@ -32,22 +34,28 @@ public class CheckClient implements CheckApi {
         if (messageBody != null) {
             return messageBody.message;
         } else {
-            throw new ResourceAccessException("Error checking blocks");
+            throw new ResourceAccessException("Error checking content");
         }
     }
 
+    @NoArgsConstructor
+    @Data
     @AllArgsConstructor
     @EqualsAndHashCode
     protected static class BlockBody {
         private String[] blocks;
     }
 
+    @NoArgsConstructor
+    @Data
     @AllArgsConstructor
     @EqualsAndHashCode
     protected static class EncodedBody {
         private String encoded;
     }
 
+    @NoArgsConstructor
+    @Data
     @AllArgsConstructor
     protected static class MessageBody {
         private boolean message;

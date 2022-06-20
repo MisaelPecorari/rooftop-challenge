@@ -3,16 +3,20 @@ package com.example.rooftopchallenge.client;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
-@Profile("test")
+import lombok.extern.slf4j.Slf4j;
+
 @Service
-public class CheckApiMock implements CheckApi {
+@ConditionalOnProperty(prefix = "api.check", name = "use", havingValue = "mock")
+@Slf4j
+public class CheckClientMock implements CheckApi {
 
     private final String[] sortedBlocks;
 
-    public CheckApiMock() {
+    public CheckClientMock() {
+        log.info("Initializing CheckClient Mock");
         sortedBlocks = new String[]{"f319", "46ec", "c1c7", "3720", "c7df", "c4ea", "4e3e", "80fd"};
     }
 

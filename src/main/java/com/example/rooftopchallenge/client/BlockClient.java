@@ -5,6 +5,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -34,12 +36,16 @@ public class BlockClient {
     }
 
 
+    @NoArgsConstructor
     @AllArgsConstructor
+    @Data
     protected static class BlocksBody {
         private String[] data;
     }
 
+    @NoArgsConstructor
     @AllArgsConstructor
+    @Data
     protected static class TokenBody {
         private String token;
     }
