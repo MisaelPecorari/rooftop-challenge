@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,10 +35,10 @@ public class TokenClientTest {
     }
 
     @Test
-    public void givenNullBody_whenGetToken_thenResourceAccessException() {
+    public void givenRestClientException_whenGetToken_thenResourceAccessException() {
         String email = "example@gmail.com";
         Mockito.when(restTemplate.getForObject(String.format(TokenClient.TOKEN_URI, email), TokenClient.TokenBody.class))
-                .thenReturn(null);
+                .thenThrow(RestClientException.class);
 
         assertThrows(ResourceAccessException.class, () -> tokenClient.getToken(email));
     }

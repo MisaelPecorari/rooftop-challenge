@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,9 +35,9 @@ public class BlockClientTest {
     }
 
     @Test
-    public void givenNullBody_whenGetBlocks_thenResourceAccessException() {
+    public void givenRestClientException_whenGetBlocks_thenResourceAccessException() {
         Mockito.when(restTemplate.getForObject(String.format(BlockClient.BLOCKS_URI, TOKEN), BlockClient.BlocksBody.class))
-                .thenReturn(null);
+                .thenThrow(RestClientException.class);
 
         assertThrows(ResourceAccessException.class, () -> blockClient.getBlocks(TOKEN));
     }

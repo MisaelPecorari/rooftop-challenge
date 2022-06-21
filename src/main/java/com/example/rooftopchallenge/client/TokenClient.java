@@ -1,7 +1,10 @@
 package com.example.rooftopchallenge.client;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +21,11 @@ public class TokenClient extends BaseClient {
     }
 
     public String getToken(String email) {
-        TokenBody tokenBody = restTemplate.getForObject(String.format(TOKEN_URI, email), TokenBody.class);
-        if (tokenBody != null) {
+        try {
+            TokenBody tokenBody = Objects.requireNonNull(restTemplate.getForObject(String.format(TOKEN_URI, email), TokenBody.class));
             return tokenBody.token;
-        } else {
-            throw new ResourceAccessException("Error getting token");
+        } catch (RestClientException e) {
+            throw new ResourceAccessException("Error getting token: " + e);
         }
     }
 

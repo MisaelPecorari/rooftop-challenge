@@ -1,7 +1,10 @@
 package com.example.rooftopchallenge.client;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
@@ -17,11 +20,11 @@ public class BlockClient extends BaseClient {
     }
 
     public String[] getBlocks(String token) {
-        BlocksBody blocksBody = restTemplate.getForObject(String.format(BLOCKS_URI, token), BlocksBody.class);
-        if (blocksBody != null) {
+        try {
+            BlocksBody blocksBody = Objects.requireNonNull(restTemplate.getForObject(String.format(BLOCKS_URI, token), BlocksBody.class));
             return blocksBody.data;
-        } else {
-            throw new ResourceAccessException("Error accessing blocks resource");
+        } catch (RestClientException e) {
+            throw new ResourceAccessException("Error getting blocks: " + e);
         }
     }
 

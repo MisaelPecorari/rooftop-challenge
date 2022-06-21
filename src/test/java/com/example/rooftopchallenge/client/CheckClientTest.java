@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +40,7 @@ public class CheckClientTest {
         String[] blocks = new String[]{};
         Mockito.when(restTemplate.postForObject(String.format(CheckClient.CHECK_URI, TOKEN),
                         new CheckClient.BlockBody(blocks), CheckClient.MessageBody.class))
-                .thenReturn(null);
+                .thenThrow(RestClientException.class);
 
         assertThrows(ResourceAccessException.class, () -> checkClient.check(blocks, TOKEN));
     }
@@ -61,7 +62,7 @@ public class CheckClientTest {
         String encoded = "abcdfg";
         Mockito.when(restTemplate.postForObject(String.format(CheckClient.CHECK_URI, TOKEN),
                         new CheckClient.EncodedBody(encoded), CheckClient.MessageBody.class))
-                .thenReturn(null);
+                .thenThrow(RestClientException.class);
 
         assertThrows(ResourceAccessException.class, () -> checkClient.check(encoded, TOKEN));
     }

@@ -21,6 +21,9 @@ public class BlockService {
     }
 
     public String[] check(String[] blocks, String token) {
+        if (blocks.length <= 2 || isSorted(blocks, token)) {
+            return blocks;
+        }
         count = 0;
         for (int i = 0; i < blocks.length - 2; i++) {
             int nextBlock = getNextConsecutive(blocks, i, token);
@@ -44,9 +47,12 @@ public class BlockService {
     }
 
     private void moveBlocks(String[] blocks, int oldIndex, int newIndex) {
+        if (oldIndex == newIndex) {
+            return;
+        }
         String block1 = blocks[oldIndex];
         String block2 = blocks[newIndex];
-        log.debug("Changing block[{}]: {} by block[{}]: {}", oldIndex, block1, newIndex, block2);
+        log.info("Changing block[{}]: {} by block[{}]: {}", oldIndex, block1, newIndex, block2);
         blocks[oldIndex] = block2;
         blocks[newIndex] = block1;
     }
@@ -56,7 +62,7 @@ public class BlockService {
         Arrays.stream(blocks).forEach(builder::append);
         String content = builder.toString();
         boolean isValid = checkClient.check(content, token);
-        log.debug("Sequence [{}] is valid [{}]", content, isValid);
+        log.info("Sequence [{}] is valid [{}]", content, isValid);
         return isValid;
     }
 

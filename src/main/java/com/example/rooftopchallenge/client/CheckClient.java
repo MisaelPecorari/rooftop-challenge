@@ -1,8 +1,11 @@
 package com.example.rooftopchallenge.client;
 
+import java.util.Objects;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
@@ -22,20 +25,20 @@ public class CheckClient extends BaseClient implements CheckApi {
 
 
     public boolean check(String[] blocks, String token) {
-        MessageBody messageBody = restTemplate.postForObject(String.format(CHECK_URI, token), new BlockBody(blocks), MessageBody.class);
-        if (messageBody != null) {
+        try {
+            MessageBody messageBody = Objects.requireNonNull(restTemplate.postForObject(String.format(CHECK_URI, token), new BlockBody(blocks), MessageBody.class));
             return messageBody.message;
-        } else {
-            throw new ResourceAccessException("Error checking blocks");
+        } catch (RestClientException e) {
+            throw new ResourceAccessException("Error checking blocks: " + e);
         }
     }
 
     public boolean check(String content, String token) {
-        MessageBody messageBody = restTemplate.postForObject(String.format(CHECK_URI, token), new EncodedBody(content), MessageBody.class);
-        if (messageBody != null) {
+        try {
+            MessageBody messageBody = Objects.requireNonNull(restTemplate.postForObject(String.format(CHECK_URI, token), new EncodedBody(content), MessageBody.class));
             return messageBody.message;
-        } else {
-            throw new ResourceAccessException("Error checking content");
+        } catch (RestClientException e) {
+            throw new ResourceAccessException("Error checking content: " + e);
         }
     }
 
