@@ -1,3 +1,4 @@
 api:
+  email: ${email:example@gmail.com}
   check:
     use: server
