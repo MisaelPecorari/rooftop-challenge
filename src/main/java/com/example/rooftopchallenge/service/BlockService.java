@@ -13,23 +13,19 @@ import lombok.extern.slf4j.Slf4j;
 public class BlockService {
 
     private final CheckApi checkClient;
-    private int count;
 
     public BlockService(CheckApi checkClient) {
         this.checkClient = checkClient;
-        this.count = 0;
     }
 
     public String[] check(String[] blocks, String token) {
         if (blocks.length <= 2 || isSorted(blocks, token)) {
             return blocks;
         }
-        count = 0;
         for (int i = 0; i < blocks.length - 2; i++) {
             int nextBlock = getNextConsecutive(blocks, i, token);
             moveBlocks(blocks, i + 1, nextBlock);
         }
-        log.info("API called [{}] times", count);
         return blocks;
     }
 
@@ -38,7 +34,6 @@ public class BlockService {
         boolean isConsecutive = false;
         while (!isConsecutive) {
             isConsecutive = checkClient.check(new String[]{blocks[currentBlockIndex], blocks[blockIndexToCompareWith]}, token);
-            count++;
             if (!isConsecutive) {
                 blockIndexToCompareWith++;
             }

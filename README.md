@@ -1,5 +1,8 @@
 # Rooftop Challenge
 
+### Requirements
+This project was built using Maven as dependency manager and JDK11, so please make sure you have them installed and well configured.
+
 ### How to run
 From the command line, we need to clean, install dependencies and compile the project: `mvn clean package -DskipTests`
 
