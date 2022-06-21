@@ -1,7 +1,7 @@
 # Rooftop Challenge
 
 ### How to run
-First of all, we need to clean and install all the dependencies: `mvn clean install`
+From the command line, we need to clean, install dependencies and compile the project: `mvn clean package -DskipTests`
 
 Then, we can run one or multiple tests as follows:
 1. Run all tests: `mvn test`
